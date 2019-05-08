@@ -19,5 +19,10 @@
         /// Run Crasher
         /// </summary>
         void Run(RunArgs args=null);
+
+        /// <summary>
+        /// Help Text
+        /// </summary>
+        string Help { get; }
     }
 }

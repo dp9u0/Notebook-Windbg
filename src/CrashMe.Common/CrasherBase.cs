@@ -5,15 +5,14 @@ namespace CrashMe.Common {
     /// <summary>
     /// Crasher Base
     /// </summary>
-    abstract class CrasherBase : ICrasher {
-
+    public abstract class CrasherBase : ICrasher {
 
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="name">Crasher Name</param>
         /// <param name="command">Crasher Command</param>
-        public CrasherBase(string name,string command) {
+        public CrasherBase(string name, string command) {
             _name = name;
             _command = command;
         }
@@ -29,6 +28,11 @@ namespace CrashMe.Common {
         /// Command
         /// </summary>
         public string Command => _command;
+
+        /// <summary>
+        /// Get Help Text
+        /// </summary>
+        public abstract string Help { get; }
 
         /// <summary>
         /// Run Crasher

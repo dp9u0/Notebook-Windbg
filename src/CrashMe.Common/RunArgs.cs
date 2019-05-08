@@ -10,6 +10,8 @@ namespace CrashMe.Common {
         // field to store arguments
         private List<string> _arguments;
 
+        public IEnumerable<string> Arguments { get => _arguments;}
+
         /// <summary>
         /// Ctor
         /// </summary>
