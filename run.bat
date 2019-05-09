@@ -1,1 +1,1 @@
-dotnet run --project src\CrashMe.Core\CrashMe.Core.csproj
+dotnet src\CrashMe.Core\bin\Debug\netcoreapp2.2\CrashMe.Core.dll
