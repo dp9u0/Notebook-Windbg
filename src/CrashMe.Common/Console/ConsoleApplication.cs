@@ -11,8 +11,11 @@ namespace CrashMe.Common {
             LoggerManager.Add(consoleLogger);
             consoleLogger.Warn("Application Started...");
             while (true) {
+                Console.Write("> ");
                 var input = Console.ReadLine();
-                CrasherContainer.Instance.Run(input);
+                if (!string.IsNullOrEmpty(input)) {
+                    CrasherContainer.Instance.Run(input);
+                }
             }
         }
 

@@ -103,9 +103,15 @@ namespace CrashMe.Common {
         protected override void RunCore(RunArgs args) {
             LoggerManager.Log("Crasher Avaliable :");
             foreach (var crasher in _crashers.Values) {
-                LoggerManager.Log($"Call '{crasher.Name}' by command '{crasher.Command}'");
-                LoggerManager.Log($"{crasher.Help}");
+                LoggerManager.Warn($"-----------------------------------------------------");
+                LoggerManager.Log($"Name\t: {crasher.Name}");
+                LoggerManager.Log($"Command\t: {crasher.Command}");
+                if (!string.IsNullOrEmpty(crasher.Help)) {
+                    LoggerManager.Log($"Example\t: ");
+                    LoggerManager.Log($"{crasher.Help}");
+                }
             }
+            LoggerManager.Warn($"-----------------------------------------------------");
         }
     }
 }

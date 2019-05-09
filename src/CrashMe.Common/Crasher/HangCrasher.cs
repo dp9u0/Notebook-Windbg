@@ -1,14 +1,18 @@
 ﻿using System.Threading;
 
 namespace CrashMe.Common {
+
+    /// <summary>
+    /// Start Some Thread And Hang it For A few Seconds
+    /// </summary>
     internal class HangCrasher : CrasherBase {
 
-        private object syncobj = new object();
+        private static object syncobj = new object();
 
-        public HangCrasher() : base("Hang Current Thread For A few Seconds", "hang") { }
+        public HangCrasher() : base("Start Some Thread And Hang it For A few Seconds", "hang") { }
 
-        public override string Help => "hang 5 30 : hang 5 thread for 30 seconds\n" +
-            "hang : hang 3 thread for 5 second as default";
+        public override string Help => "hang : hang 3 thread for 5 second as default\n" +
+            "hang 5 30 : hang 5 thread for 30 seconds";
 
         protected override void RunCore(RunArgs args) {
             int threadCount = 0;
