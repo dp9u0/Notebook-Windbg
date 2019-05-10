@@ -75,13 +75,12 @@ Base Command 用于执行调试相关操作.
 
 ### Memory
 
-* d
-* dt
-* dx
-* dv
-* e
-* s
-* r
+* `d[type] [<range>] [/c column] [Lcount]` : 显示内存
+* `e[type] <address> <value>` : 编辑内存
+* `s` : [搜索内存](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/s--search-memory-)
+* `r` : 设置寄存器的值 `r eax = @ebx`
+
+[伪寄存器](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/pseudo-register-syntax)
 
 ### Threads
 
@@ -111,6 +110,7 @@ Base Command 用于执行调试相关操作.
 ### Debug
 
 * `b` : 断点管理
+  * `ba` : 数据断点
   * `b<c|d|e> <bps>` : clear/disable/enable breakpoint(s)
   * `b<p|u|m>` : create breakpoints
     * `bp <address>` : 根据地址设置断点
@@ -120,6 +120,8 @@ Base Command 用于执行调试相关操作.
 * `gu` : step out
 * `p[a|c|ct|h|t]` : 步进[step over]`[地址|调用|调用或return|分支|return]`
 * `t[a|c|ct|h|t]` : 执行[step into]`[地址|调用|调用或return|分支|return]`
+
+p t  的区别是 p 会将 call methodxxx 作为一条指令, t 会跟踪到 method 方法内部. 当没有
 
 ## Extension
 
