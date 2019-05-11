@@ -78,9 +78,12 @@ Base Command 用于执行调试相关操作.
 * `d[type] [<range>] [/c column] [Lcount]` : 显示内存
 * `e[type] <address> <value>` : 编辑内存
 * `s` : [搜索内存](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/s--search-memory-)
-* `r` : 设置寄存器的值 `r eax = @ebx`
-
-[伪寄存器](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/pseudo-register-syntax)
+  * `s [-[[Flags]Type]] Range Pattern` : 按指定类型格式搜索数据 `s-u 0000020044434700 L1000 "Application"`
+  * `s -[[Flags]]<sa|su> Range` : 搜索  ASCII / UNICODE `s-[l5]su 0000020044434700 L1000`
+  * `s -[[Flags]]v Range Object` : 搜索数据结构
+* `r` : 设置/获取寄存器的值 `r eax` 表达式中使用寄存器 `@ebx`
+  * [寄存器](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/register-syntax)
+  * [伪寄存器](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/pseudo-register-syntax)
 
 ### Threads
 
