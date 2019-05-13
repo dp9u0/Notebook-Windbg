@@ -62,7 +62,7 @@ namespace CrashMe.Common
                 if (!type.IsAbstract && crasherType.IsAssignableFrom(type) && type != typeof(CrasherContainer))
                     try
                     {
-                        var crasher = (ICrasher) Activator.CreateInstance(type, true);
+                        var crasher = (ICrasher)Activator.CreateInstance(type, true);
                         Add(crasher);
                     } catch (Exception ex)
                     {
@@ -104,6 +104,10 @@ namespace CrashMe.Common
                     } catch (Exception ex)
                     {
                         LoggerManager.Error(ex, $"Error When Run Crasher ${crasher.Name} : {input}");
+                        if (ex is CrashException cex && !cex.CatchIt)
+                        {
+                            throw;
+                        }
                     }
                 } else
                 {
@@ -118,12 +122,12 @@ namespace CrashMe.Common
             LoggerManager.Log("Crasher Available :");
             foreach (var crasher in _crashers.Values)
             {
-                LoggerManager.Warn("-----------------------------------------------------");
-                LoggerManager.Log($"Name\t: {crasher.Name}");
-                LoggerManager.Log($"Command\t: {crasher.Command}");
+                LoggerManager.Error(null, "-----------------------------------------------------");
+                LoggerManager.Warn($"Name\t: {crasher.Name}");
+                LoggerManager.Warn($"Command\t: {crasher.Command}");
                 if (!string.IsNullOrEmpty(crasher.Help))
                 {
-                    LoggerManager.Log("Example\t: ");
+                    LoggerManager.Warn("Example\t: ");
                     LoggerManager.Log($"{crasher.Help}");
                 }
             }

@@ -33,7 +33,7 @@ namespace CrashMe.Common
         /// </summary>
         /// <param name="ex"></param>
         /// <param name="message"></param>
-        public static void Error(Exception ex, string message = null)
+        public static void Error(Exception ex = null, string message = null)
         {
             foreach (var logger in Loggers)
                 try

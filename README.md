@@ -45,6 +45,7 @@ Meta Command 主要涉及 windbg 相关的命令,用于执行 windbg 本身的�
 * `.time` `.ttime` : 执行时间,线程时间
 * `.eventlog` : 显示新的 Microsoft Win32 调试事件,如模块加载,进程创建和终止和线程创建和终止
 * `.help` 帮助
+* `.shell [Options] [ShellCommand]` : 执行外部命令 .shell -ci "!eestack" grep Monitor.Enter
 
 ## Base
 
@@ -126,9 +127,20 @@ Base Command 用于执行调试相关操作.
 
 p t  的区别是 p 会将 call methodxxx 作为一条指令, t 会跟踪到 method 方法内部. 当没有
 
+* `sx*` : 通过 sx [管理事件中断](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/sx--sxd--sxe--sxi--sxn--sxr--sx---set-exceptions-),中断事件
+列表查看[控制异常和事件](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/controlling-exceptions-and-events)
+
+例如当创建线程时,输出 `sxn ct`
+
 ## Extension
 
 扩展命令通过扩展插件,增加更多的命令供执行,可以通过 `.load`/`.loadby` 加载扩展.下面介绍一些比较常用的扩展.
+
+* `!ext.analyze` : analyze
+* `!ext.gle [-all]` : 显示最后一个错误
+* `!ext.for_each_<frame|function|local|module|register>` : for example `!for_each_register -c:!address ${@#RegisterValue}`
+* `!ext.peb` `!ext.teb`
+* `!runaway [Flags]` : 显示线程时间
 
 ### SOS
 

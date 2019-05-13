@@ -37,7 +37,10 @@ namespace CrashMe.Common.Crasher
                     System.DateTime end = System.DateTime.Now;
                     LoggerManager.Warn(
                         $"{Thread.CurrentThread.Name} Hung for {end.Subtract(start).Seconds}.{end.Subtract(start).Milliseconds}");
-                }) { Name = $"Thread_{i}" };
+                })
+                {
+                    Name = $"Thread_{i}"
+                };
                 thread.Start();
             }
         }
