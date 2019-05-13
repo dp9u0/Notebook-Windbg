@@ -12,7 +12,10 @@
   * [Extension](#extension)
     * [SOS](#sos)
     * [SOSEX](#sosex)
+  * [中断](#%E4%B8%AD%E6%96%AD)
   * [Lab](#lab)
+    * [Hang](#hang)
+    * [Crash](#crash)
   * [Others](#others)
 
 * 元命令 : 元命令以点号 ：`.` 开始,提供调试器和调试会话控制功能
@@ -146,7 +149,58 @@ p t  的区别是 p 会将 call methodxxx 作为一条指令, t 会跟踪到 met
 
 ### SOSEX
 
+## 中断
+
+* `sx*` : 通过 sx [管理事件中断](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/sx--sxd--sxe--sxi--sxn--sxr--sx---set-exceptions-),中断事件
+列表查看[控制异常和事件](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/controlling-exceptions-and-events)
+
+1. 例如当创建线程时,输出 `sxn ct`
+2. 例如发生 Access Violation(First Chance) 时 打印 `rcx` : `sxe -c '.echo @rcx' av`
+
 ## Lab
+
+使用 VS2019 打开解决方案 `./CrashMe.sln`,运行项目.
+
+### Hang
+
+控制台
+
+```shell
+./run.bat
+adplus –hang –pn dotnet.exe
+# >命令行输入 hang 创建hang线程
+```
+
+cdb 执行 :
+
+```shell
+.loadby sos coreclr # 加载 sos 插件
+~* kL # 输出堆栈
+!syncblk
+.shell -ci "!eestack" grep MonEnter
+```
+
+### Crash
+
+```shell
+./run.bat
+adplus -crash -pn dotnet.exe
+# >命令行输入 ex f 程序抛出异常
+```
+
+```shell
+cdb -z <dumpFile>
+!pe
+!u <IP shown in the exceptionstack> # 反汇编抛出异常位置附近代码
+# 输出类似下面
+# 00007ffb`2aa6529e 33d2            xor     edx,edx
+# >>> 00007ffb`2aa652a0 3909        cmp     dword ptr [rcx],ecx
+# 00007ffb`2aa652a2 e819a1fc43      call    System_Private_CoreLib!System.String.Equals(System.String)$##60002F9 (00007ffb`6ea2f3c0)
+```
+
+`rcx` 处记录`` `ptr [rcx]` 会引发 av( Access Violation) 中断,CLR借此抛出异常
+
+可以 cdb直接attach 到进程.通过 `sxn -c '.echo @rcx' av`设置av中断并打印寄存器值,然后CrashMe 中触发 Finalize 抛出NullReferenceException.
 
 ## Others
 
