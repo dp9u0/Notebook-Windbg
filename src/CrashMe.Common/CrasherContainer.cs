@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CrashMe.Common {
+namespace CrashMe.Common
+{
 
     /// <summary>
     ///  Crasher Container
     /// </summary>
-    public class CrasherContainer : CrasherBase {
+    public class CrasherContainer : CrasherBase
+    {
+
+        private readonly IDictionary<string, ICrasher> _crashers = new Dictionary<string, ICrasher>();
 
         /// <summary>
         /// Static Single Instance Pattern
         /// </summary>
-        static CrasherContainer() {
+        static CrasherContainer()
+        {
             Instance = new CrasherContainer();
             Instance.LoadDefault();
         }
@@ -20,24 +25,25 @@ namespace CrashMe.Common {
         /// <summary>
         /// Private Make Sure None Can Create A Instance
         /// </summary>
-        private CrasherContainer() : base("Crasher Container", "list") { }
-
-        private readonly IDictionary<string, ICrasher> _crashers = new Dictionary<string, ICrasher>();
+        private CrasherContainer() : base("Crasher Container", "list")
+        {
+        }
 
         /// <summary>
         /// Singleton Instance
         /// </summary>
-        public static CrasherContainer Instance {
-            get;
-            private set;
-        }
+        public static CrasherContainer Instance { get; }
 
+        /// <summary>
+        /// Help String
+        /// </summary>
         public override string Help => "";
 
         /// <summary>
         /// Load Default Crasher
         /// </summary>
-        public void LoadDefault() {
+        public void LoadDefault()
+        {
             Add(this);
             LoadFromAssembly(Assembly.GetExecutingAssembly(), out _);
         }
@@ -46,72 +52,85 @@ namespace CrashMe.Common {
         /// Load Crasher From Assembly
         /// </summary>
         /// <param name="assembly"></param>
-        public void LoadFromAssembly(Assembly assembly, out ICollection<Exception> errors) {
+        /// <param name="errors">load errors</param>
+        public void LoadFromAssembly(Assembly assembly, out ICollection<Exception> errors)
+        {
             errors = new List<Exception>();
             var types = assembly.GetTypes();
-            var icrasherType = typeof(ICrasher);
-            foreach (var type in types) {
-                if (!type.IsAbstract && icrasherType.IsAssignableFrom(type) && type != typeof(CrasherContainer)) {
-                    try {
-                        var crasher = (ICrasher)Activator.CreateInstance(type, true);
+            var crasherType = typeof(ICrasher);
+            foreach (var type in types)
+                if (!type.IsAbstract && crasherType.IsAssignableFrom(type) && type != typeof(CrasherContainer))
+                    try
+                    {
+                        var crasher = (ICrasher) Activator.CreateInstance(type, true);
                         Add(crasher);
-                    } catch (Exception ex) {
+                    } catch (Exception ex)
+                    {
                         errors.Add(ex);
                     }
-                }
-            }
-            if (errors.Count > 0) {
-                throw new AggregateException(errors);
-            }
+
+            if (errors.Count > 0) throw new AggregateException(errors);
         }
 
         /// <summary>
         /// Add Crasher
         /// </summary>
         /// <param name="crasher">crasher</param>
-        public void Add(ICrasher crasher) {
-            if (_crashers.ContainsKey(crasher.Command)) {
-                throw new InvalidOperationException($"dumplicate crasher :{crasher.Name}");
-            }
+        public void Add(ICrasher crasher)
+        {
+            if (_crashers.ContainsKey(crasher.Command))
+                throw new InvalidOperationException($"duplicate crasher :{crasher.Name}");
             _crashers[crasher.Command] = crasher;
         }
 
         /// <summary>
-        /// Pick A Craher by input and Run it
+        /// Pick A Crasher by input and Run it
         /// </summary>
         /// <param name="input">input command line and arguments</param>
-        public void Run(string input) {
-            var inputs = input.Split(new char[] { ' ' });
-            if (inputs.Length > 0) {
+        public void Run(string input)
+        {
+            var inputs = input.Split(' ');
+            if (inputs.Length > 0)
+            {
                 var command = inputs[0];
-                if (_crashers.ContainsKey(command)) {
+                if (_crashers.ContainsKey(command))
+                {
                     var crasher = _crashers[command];
-                    var args = (string[])Array.CreateInstance(typeof(string), inputs.Length - 1);
+                    var args = new String[inputs.Length - 1];
                     Array.ConstrainedCopy(inputs, 1, args, 0, inputs.Length - 1);
-                    try {
+                    try
+                    {
                         crasher.Run(new RunArgs(args));
-                    } catch (Exception ex) {
+                    } catch (Exception ex)
+                    {
                         LoggerManager.Error(ex, $"Error When Run Crasher ${crasher.Name} : {input}");
                     }
-                } else {
+                } else
+                {
                     LoggerManager.Warn($"No Crasher To Run : {input}");
-                    LoggerManager.Warn($"Enter 'list' to See All Crahers...");
+                    LoggerManager.Warn("Enter 'list' to See All Crasher...");
                 }
             }
         }
 
-        protected override void RunCore(RunArgs args) {
-            LoggerManager.Log("Crasher Avaliable :");
-            foreach (var crasher in _crashers.Values) {
-                LoggerManager.Warn($"-----------------------------------------------------");
+        protected override void RunCore(RunArgs args)
+        {
+            LoggerManager.Log("Crasher Available :");
+            foreach (var crasher in _crashers.Values)
+            {
+                LoggerManager.Warn("-----------------------------------------------------");
                 LoggerManager.Log($"Name\t: {crasher.Name}");
                 LoggerManager.Log($"Command\t: {crasher.Command}");
-                if (!string.IsNullOrEmpty(crasher.Help)) {
-                    LoggerManager.Log($"Example\t: ");
+                if (!string.IsNullOrEmpty(crasher.Help))
+                {
+                    LoggerManager.Log("Example\t: ");
                     LoggerManager.Log($"{crasher.Help}");
                 }
             }
-            LoggerManager.Warn($"-----------------------------------------------------");
+
+            LoggerManager.Warn("-----------------------------------------------------");
         }
+
     }
+
 }

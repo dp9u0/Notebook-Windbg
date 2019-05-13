@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CrashMe.Common {
-
+namespace CrashMe.Common
+{
 
     /// <summary>
     /// 
     /// </summary>
-    public static class LoggerManager {
+    public static class LoggerManager
+    {
 
-        private static IList<ILogger> Loggers = new List<ILogger>();
+        private static readonly IList<ILogger> Loggers = new List<ILogger>();
 
         /// <summary>
         /// 
         /// </summary>
-        static LoggerManager() {
-           
+        static LoggerManager()
+        {
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
-        public static void Add(ILogger logger) {
+        public static void Add(ILogger logger)
+        {
             Loggers.Add(logger);
         }
 
@@ -31,43 +33,50 @@ namespace CrashMe.Common {
         /// </summary>
         /// <param name="ex"></param>
         /// <param name="message"></param>
-        public static void Error(Exception ex, string message = null) {
-            foreach (var logger in Loggers) {
-                try {
+        public static void Error(Exception ex, string message = null)
+        {
+            foreach (var logger in Loggers)
+                try
+                {
                     logger.Error(ex, message);
-                } catch {
+                } catch
+                {
+                    // ignored
                 }
-            }
         }
 
-
         /// <summary>
-        /// 
+        /// Warn
         /// </summary>
-        /// <param name="ex"></param>
         /// <param name="message"></param>
-        public static void Warn(string message) {
-            foreach (var logger in Loggers) {
-                try {
+        public static void Warn(string message)
+        {
+            foreach (var logger in Loggers)
+                try
+                {
                     logger.Warn(message);
-                } catch {
+                } catch
+                {
+                    // ignored
                 }
-            }
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="message"></param>
-        public static void Log(string message) {
-            foreach (var logger in Loggers) {
-                try {
+        public static void Log(string message)
+        {
+            foreach (var logger in Loggers)
+                try
+                {
                     logger.Log(message);
-                } catch {
+                } catch
+                {
+                    // ignored
                 }
-            }
-
         }
 
     }
+
 }

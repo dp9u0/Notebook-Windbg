@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrashMe.Core", "src\CrashMe.Core\CrashMe.Core.csproj", "{79D30A67-6D96-4A00-945A-7AF7D762A72C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrashMe.Core", "src\CrashMe.Core\CrashMe.Core.csproj", "{79D30A67-6D96-4A00-945A-7AF7D762A72C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrashMe.Common", "src\CrashMe.Common\CrashMe.Common.csproj", "{B24DE58C-F69D-40E2-B8EF-B340BE0F8C56}"
 EndProject

@@ -1,23 +1,30 @@
-﻿using System;
-
-namespace CrashMe.Common {
+﻿namespace CrashMe.Common.Console
+{
 
     /// <summary>
-    /// 
+    /// Application For Console
     /// </summary>
-    public class ConsoleApplication {
-        public void Start() {
+    public class ConsoleApplication
+    {
+
+        /// <summary>
+        /// Start Application
+        /// </summary>
+        public void Start()
+        {
             var consoleLogger = new ConsoleLogger();
             LoggerManager.Add(consoleLogger);
             consoleLogger.Warn("Application Started...");
-            while (true) {
-                Console.Write("> ");
-                var input = Console.ReadLine();
-                if (!string.IsNullOrEmpty(input)) {
-                    CrasherContainer.Instance.Run(input);
-                }
+            while (true)
+            {
+                System.Console.Write("> ");
+                var input = System.Console.ReadLine();
+                if (!string.IsNullOrEmpty(input)) CrasherContainer.Instance.Run(input);
             }
+
+            // ReSharper disable once FunctionNeverReturns
         }
 
     }
+
 }

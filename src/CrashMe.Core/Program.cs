@@ -1,10 +1,22 @@
-﻿using CrashMe.Common;
-using System;
+﻿using CrashMe.Common.Console;
 
-namespace CrashMe.Core {
-    class Program {
-        static void Main(string[] args) {
+namespace CrashMe.Core
+{
+
+    /// <summary>
+    /// Program Entrance
+    /// </summary>
+    static class Program
+    {
+
+        /// <summary>
+        /// Program Entrance
+        /// </summary>
+        static void Main()
+        {
             new ConsoleApplication().Start();
         }
+
     }
+
 }

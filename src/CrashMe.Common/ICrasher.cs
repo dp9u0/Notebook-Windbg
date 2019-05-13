@@ -1,9 +1,11 @@
-﻿namespace CrashMe.Common {
+﻿namespace CrashMe.Common
+{
 
     /// <summary>
     /// Interface Crasher 
     /// </summary>
-    public interface ICrasher {
+    public interface ICrasher
+    {
 
         /// <summary>
         /// Crasher Name
@@ -16,13 +18,15 @@
         string Command { get; }
 
         /// <summary>
-        /// Run Crasher
-        /// </summary>
-        void Run(RunArgs args=null);
-
-        /// <summary>
         /// Help Text
         /// </summary>
         string Help { get; }
+
+        /// <summary>
+        /// Run Crasher
+        /// </summary>
+        void Run(RunArgs args = null);
+
     }
+
 }

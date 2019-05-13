@@ -1,33 +1,32 @@
-﻿using System;
-
-namespace CrashMe.Common {
+﻿namespace CrashMe.Common
+{
 
     /// <summary>
     /// Crasher Base
     /// </summary>
-    public abstract class CrasherBase : ICrasher {
+    public abstract class CrasherBase : ICrasher
+    {
 
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="name">Crasher Name</param>
         /// <param name="command">Crasher Command</param>
-        public CrasherBase(string name, string command) {
-            _name = name;
-            _command = command;
+        protected CrasherBase(string name, string command)
+        {
+            Name = name;
+            Command = command;
         }
-
-        private readonly string _name;
-        private readonly string _command;
 
         /// <summary>
         /// Crasher Name
         /// </summary>
-        public string Name => _name;
+        public string Name { get; }
+
         /// <summary>
         /// Command
         /// </summary>
-        public string Command => _command;
+        public string Command { get; }
 
         /// <summary>
         /// Get Help Text
@@ -38,7 +37,8 @@ namespace CrashMe.Common {
         /// Run Crasher
         /// </summary>
         /// <param name="args">arguments</param>
-        public void Run(RunArgs args = null) {
+        public void Run(RunArgs args = null)
+        {
             RunCore(args);
         }
 
@@ -47,5 +47,7 @@ namespace CrashMe.Common {
         /// </summary>
         /// <param name="args">arguments</param>
         protected abstract void RunCore(RunArgs args);
+
     }
+
 }
