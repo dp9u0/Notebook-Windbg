@@ -1,4 +1,7 @@
-﻿namespace CrashMe.Common.Console
+﻿using System.Diagnostics;
+using System.Runtime;
+
+namespace CrashMe.Common.Console
 {
 
     /// <summary>
@@ -14,7 +17,7 @@
         {
             var consoleLogger = new ConsoleLogger();
             LoggerManager.Add(consoleLogger);
-            consoleLogger.Warn("Application Started...");
+            consoleLogger.Warn($"Application {Process.GetCurrentProcess().Id} Started...");
             while (true)
             {
                 System.Console.Write("> ");

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 
 namespace CrashMe.Common.Console
 {
@@ -18,6 +19,7 @@ namespace CrashMe.Common.Console
         public void Error(Exception ex, string message = null)
         {
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append($"{DateTime.Now:yyyyMMdd hh:mm:ss.fff} [{Thread.CurrentThread.ManagedThreadId}]:");
             if (!string.IsNullOrEmpty(message)) stringBuilder.AppendLine(message);
             while (ex != null)
             {
@@ -37,7 +39,7 @@ namespace CrashMe.Common.Console
         /// <param name="message"></param>
         public void Log(string message)
         {
-            System.Console.WriteLine(message);
+            System.Console.WriteLine($"{DateTime.Now:yyyyMMdd hh:mm:ss.fff} [{Thread.CurrentThread.ManagedThreadId}]: {message}");
         }
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace CrashMe.Common.Console
         public void Warn(string message)
         {
             System.Console.ForegroundColor = ConsoleColor.DarkYellow;
-            System.Console.WriteLine(message);
+            System.Console.WriteLine($"{DateTime.Now:yyyyMMdd hh:mm:ss.fff} [{Thread.CurrentThread.ManagedThreadId}]: {message}");
             System.Console.ResetColor();
         }
 

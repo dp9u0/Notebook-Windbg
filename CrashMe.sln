@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrashMe.Core", "src\CrashMe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrashMe.Common", "src\CrashMe.Common\CrashMe.Common.csproj", "{B24DE58C-F69D-40E2-B8EF-B340BE0F8C56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrashMe", "src\CrashMe\CrashMe.csproj", "{B2306C31-359B-4FE3-B59C-27A61486DD92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B24DE58C-F69D-40E2-B8EF-B340BE0F8C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B24DE58C-F69D-40E2-B8EF-B340BE0F8C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B24DE58C-F69D-40E2-B8EF-B340BE0F8C56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2306C31-359B-4FE3-B59C-27A61486DD92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2306C31-359B-4FE3-B59C-27A61486DD92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2306C31-359B-4FE3-B59C-27A61486DD92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2306C31-359B-4FE3-B59C-27A61486DD92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

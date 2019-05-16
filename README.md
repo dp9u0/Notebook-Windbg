@@ -16,6 +16,9 @@
   * [Lab](#lab)
     * [Hang](#hang)
     * [Crash](#crash)
+    * [MemoryDoom](#memorydoom)
+    * [Crash Stack Overflow](#crash-stack-overflow)
+    * [Memory Leak](#memory-leak)
   * [Others](#others)
 
 * 元命令 : 元命令以点号 ：`.` 开始,提供调试器和调试会话控制功能
@@ -147,6 +150,17 @@ p t  的区别是 p 会将 call methodxxx 作为一条指令, t 会跟踪到 met
 
 ### SOS
 
+* dump* : heap object 等
+* clrstack
+* threads/threadpool
+* ip2md : `!ip2md <address>`
+* name2ee : `!name2ee module!name`
+* gcroot
+* bpmd : 创建断点
+* finalizequeue
+* printexception/StopOnException
+* SyncBlk
+
 ### SOSEX
 
 ## 中断
@@ -201,6 +215,54 @@ cdb -z <dumpFile>
 `rcx` 处记录`` `ptr [rcx]` 会引发 av( Access Violation) 中断,CLR借此抛出异常
 
 可以 cdb直接attach 到进程.通过 `sxn -c '.echo @rcx' av`设置av中断并打印寄存器值,然后CrashMe 中触发 Finalize 抛出NullReferenceException.
+
+### MemoryDoom
+
+string 运算操作导致 gc 频繁 运行 `cpu` 引发问题 dump
+
+```shell
+~* k
+!eestack
+!dumpheap -stat # 统计
+```
+
+可以看到大量 gc_collection
+
+### Crash Stack Overflow
+
+```xml
+<ADPlus Version='2'>
+  <Settings>
+    <Runmode> CRASH </Runmode>
+  </Settings>
+  <Exceptions>
+    <NewException Code="0xc00000fd" Name="Unknown_Exception">
+        <Actions1>MiniDump;Log</Actions1>
+        <Actions2>FullDump;Log</Actions2>
+    </NewException>
+    <Exception Code="AV">
+        <Actions1>MiniDump;Log</Actions1>
+        <Actions2>FullDump;Log</Actions2>
+    </Exception>
+  </Exceptions>
+</ADPlus>
+```
+
+```shell
+adplus -p 7232 -c 0xc00000fd.cfg  -o dumps\
+cdb -z dumps\20190516_104702_Crash_Mode\FULLDUMP_FirstChance_xxx.dmp
+!pe
+!clrstack
+!dso
+```
+
+### Memory Leak
+
+使用的资源获得其应该有的生命周期或者产生了生命周期更长的资源而无法被释放.
+
+Native 资源泄露 : XmlSerialization 动态创建大量 assembly, Handle
+
+Managed 资源泄露 : EventHandler
 
 ## Others
 

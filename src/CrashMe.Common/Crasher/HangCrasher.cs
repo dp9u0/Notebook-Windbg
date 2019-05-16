@@ -9,7 +9,7 @@ namespace CrashMe.Common.Crasher
     internal class HangCrasher : CrasherBase
     {
 
-        private static readonly object SyncObj = new object();
+        //private static readonly object SyncObj = new object();
 
         public HangCrasher() : base("Start Some Thread And Hang it For A few Seconds", "hang")
         {
@@ -20,14 +20,16 @@ namespace CrashMe.Common.Crasher
 
         protected override void RunCore(RunArgs args)
         {
+            object lockObject = new object();
             if (!args.TryGetFirstAsInt(out var threadCount)) threadCount = 3;
             for (int i = 0; i < threadCount; i++)
             {
                 var thread = new Thread(() =>
                 {
                     System.DateTime start = System.DateTime.Now;
-                    lock (SyncObj)
+                    lock (lockObject)
                     {
+                        var hash = lockObject.GetHashCode();
                         if (args.TryGetSecondAsInt(out int seconds))
                             Thread.Sleep(seconds * 1000);
                         else
